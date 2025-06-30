@@ -26,7 +26,6 @@ pub fn bytes_to_hex(bytes: &[u8]) -> String {
 
     encode(bytes)
     // I Uses the hex crate's encode function to convert the byte slice into a hex string
-    
 }
 
 pub fn hex_to_bytes(hex: &str) -> Result<Vec<u8>, hex::FromHexError> {
@@ -36,13 +35,22 @@ pub fn hex_to_bytes(hex: &str) -> Result<Vec<u8>, hex::FromHexError> {
     // I Uses the hex crate's decode function to convert the hex string into a byte vector
 }
 
-// pub fn swap_endian_u32(num: u32) -> [u8; 4] {
-//     // TODO: Implement little-endian byte swap for u32
-// }
+pub fn swap_endian_u32(num: u32) -> [u8; 4] {
+    // TODO: Implement little-endian byte swap for u32
 
-// pub fn parse_satoshis(input: &str) -> Result<u64, String> {
-//     // TODO: Parse input string to u64, return error string if invalid
-// }
+    num.to_le_bytes()
+    // I Converts the u32 number to its little-endian byte representation using the in_built to_le_bytes method, which returns an array of 4 bytes in little-endian order.
+    // Big-endian: most significant byte first → 12 34 56 78
+    // Little-endian: least significant byte first → 78 56 34 12
+}
+
+pub fn parse_satoshis(input: &str) -> Result<u64, String> {
+    // TODO: Parse input string to u64, return error string if invalid
+    input.parse::<u64>()
+        .map_err(|_| "Invalid satoshi amount".to_string())
+    // I Attempts to parse the input string as a u64 and returns an error string if parsing fails.
+    // If the input is valid, it returns the parsed u64 value.
+}
 
 // pub enum ScriptType {
 //     P2PKH,
