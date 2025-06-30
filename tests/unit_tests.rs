@@ -9,12 +9,12 @@ fn test_decode_hex_and_endianness() {
     assert_eq!(be_bytes, le_bytes.iter().rev().cloned().collect::<Vec<_>>());
 }
 
-// #[test]
-// fn test_hex_conversion() {
-//     let bytes = vec![0x01, 0x02, 0xff];
-//     assert_eq!(bytes_to_hex(&bytes), "0102ff");
-//     assert_eq!(hex_to_bytes("0102ff").unwrap(), bytes);
-// }
+#[test]
+fn test_hex_conversion() {
+    let bytes = vec![0x01, 0x02, 0xff];
+    assert_eq!(bytes_to_hex(&bytes), "0102ff");
+    assert_eq!(hex_to_bytes("0102ff").unwrap(), bytes);
+}
 
 // #[test]
 // fn test_endianness_swap() {

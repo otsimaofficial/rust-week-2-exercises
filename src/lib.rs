@@ -21,13 +21,20 @@ pub fn to_big_endian(bytes: &[u8]) -> Vec<u8> {
     // I Creates a new Vec by copying data from slice then Reverses the Vec in-place and Return the modified Vec
 }
 
-// pub fn bytes_to_hex(bytes: &[u8]) -> String {
-//     // TODO: Implement conversion of bytes slice to hex string
-// }
+pub fn bytes_to_hex(bytes: &[u8]) -> String {
+    // TODO: Implement conversion of bytes slice to hex string
 
-// pub fn hex_to_bytes(hex: &str) -> Result<Vec<u8>, hex::FromHexError> {
-//     // TODO: Implement conversion of hex string to bytes vector
-// }
+    encode(bytes)
+    // I Uses the hex crate's encode function to convert the byte slice into a hex string
+    
+}
+
+pub fn hex_to_bytes(hex: &str) -> Result<Vec<u8>, hex::FromHexError> {
+    // TODO: Implement conversion of hex string to bytes vector
+
+    decode(hex)
+    // I Uses the hex crate's decode function to convert the hex string into a byte vector
+}
 
 // pub fn swap_endian_u32(num: u32) -> [u8; 4] {
 //     // TODO: Implement little-endian byte swap for u32
