@@ -27,50 +27,50 @@ fn test_parse_satoshis_errors() {
     assert_eq!(parse_satoshis("abc").unwrap_err(), "Invalid satoshi amount");
 }
 
-// #[test]
-// fn test_script_classification() {
-//     assert!(matches!(
-//         classify_script(&[0x76, 0xa9, 0x14]),
-//         ScriptType::P2PKH
-//     ));
-//     assert!(matches!(
-//         classify_script(&[0x00, 0x14, 0xff]),
-//         ScriptType::P2WPKH
-//     ));
-//     assert!(matches!(
-//         classify_script(&[0xab, 0xcd]),
-//         ScriptType::Unknown
-//     ));
-// }
+#[test]
+fn test_script_classification() {
+    assert!(matches!(
+        classify_script(&[0x76, 0xa9, 0x14]),
+        ScriptType::P2PKH
+    ));
+    assert!(matches!(
+        classify_script(&[0x00, 0x14, 0xff]),
+        ScriptType::P2WPKH
+    ));
+    assert!(matches!(
+        classify_script(&[0xab, 0xcd]),
+        ScriptType::Unknown
+    ));
+}
 
-// #[test]
-// fn test_outpoint_destructuring() {
-//     let op = Outpoint("abcd1234".to_string(), 1);
-//     let Outpoint(txid, vout) = op;
-//     assert_eq!(txid, "abcd1234");
-//     assert_eq!(vout, 1);
-// }
+#[test]
+fn test_outpoint_destructuring() {
+    let op = Outpoint("abcd1234".to_string(), 1);
+    let Outpoint(txid, vout) = op;
+    assert_eq!(txid, "abcd1234");
+    assert_eq!(vout, 1);
+}
 
-// #[test]
-// fn test_script_slice() {
-//     let mut script = vec![0x00, 0x14];
-//     script.extend(vec![0u8; 20]);
-//     let data = read_pushdata(&script);
-//     assert_eq!(data.len(), 20);
-// }
+#[test]
+fn test_script_slice() {
+    let mut script = vec![0x00, 0x14];
+    script.extend(vec![0u8; 20]);
+    let data = read_pushdata(&script);
+    assert_eq!(data.len(), 20);
+}
 
-// #[test]
-// fn test_wallet_balance_trait() {
-//     let wallet = TestWallet { confirmed: 1500 };
-//     assert_eq!(wallet.balance(), 1500);
-// }
+#[test]
+fn test_wallet_balance_trait() {
+    let wallet = TestWallet { confirmed: 1500 };
+    assert_eq!(wallet.balance(), 1500);
+}
 
-// #[test]
-// fn test_apply_fee() {
-//     let mut balance = 10000;
-//     apply_fee(&mut balance, 250);
-//     assert_eq!(balance, 9750);
-// }
+#[test]
+fn test_apply_fee() {
+    let mut balance = 10000;
+    apply_fee(&mut balance, 250);
+    assert_eq!(balance, 9750);
+}
 
 // #[test]
 // fn test_move_txid() {

@@ -52,40 +52,63 @@ pub fn parse_satoshis(input: &str) -> Result<u64, String> {
     // If the input is valid, it returns the parsed u64 value.
 }
 
-// pub enum ScriptType {
-//     P2PKH,
-//     P2WPKH,
-//     Unknown,
-// }
+pub enum ScriptType {
+    P2PKH,
+    P2WPKH,
+    Unknown,
+}
 
-// pub fn classify_script(script: &[u8]) -> ScriptType {
-//     // TODO: Match script pattern and return corresponding ScriptType
-// }
+pub fn classify_script(script: &[u8]) -> ScriptType {
+    // TODO: Match script pattern and return corresponding ScriptType
 
-// // TODO: complete Outpoint tuple struct
-// pub struct Outpoint();
+    match script {
+        // P2PKH (Pay-to-Public-Key-Hash) pattern: OP_DUP OP_HASH160 <20-byte-push>
+        [0x76, 0xa9, 0x14, ..] => ScriptType::P2PKH,
+        
+        // P2WPKH (Pay-to-Witness-Public-Key-Hash) pattern: OP_0 <20-byte-push>  
+        [0x00, 0x14, ..] => ScriptType::P2WPKH,
+        
+        // Any other pattern is unknown
+        _ => ScriptType::Unknown,
+    }
+    // Using pattern matching on slice prefixes to identify script types
+}
 
-// pub fn read_pushdata(script: &[u8]) -> &[u8] {
-//     // TODO: Return the pushdata portion of the script slice (assumes pushdata starts at index 2)
-// }
+// TODO: complete Outpoint tuple struct
+pub struct Outpoint(pub String, pub u32);
 
-// pub trait Wallet {
-//     fn balance(&self) -> u64;
-// }
+pub fn read_pushdata(script: &[u8]) -> &[u8] {
+    // TODO: Return the pushdata portion of the script slice (assumes pushdata starts at index 2)
+    if script.len() > 2 {
+        &script[2..]
+    } else {
+        &[]
+    }
+    // I Returns a slice of the script starting from index 2, which is where the pushdata is expected to begin. If the script is shorter than 2 bytes, it returns an empty slice.
+}
 
-// pub struct TestWallet {
-//     pub confirmed: u64,
-// }
+pub trait Wallet {
+    fn balance(&self) -> u64;
+}
 
-// impl Wallet for TestWallet {
-//     fn balance(&self) -> u64 {
-//         // TODO: Return the wallet's confirmed balance
-//     }
-// }
+pub struct TestWallet {
+    pub confirmed: u64,
+}
 
-// pub fn apply_fee(balance: &mut u64, fee: u64) {
-//     // TODO: Subtract fee from mutable balance reference
-// }
+impl Wallet for TestWallet {
+    fn balance(&self) -> u64 {
+        // TODO: Return the wallet's confirmed balance
+    self.confirmed
+    // I Returns the confirmed balance of the wallet, which is stored in the `confirmed`, field of the `TestWallet` struct.
+    }
+}
+
+pub fn apply_fee(balance: &mut u64, fee: u64) {
+    // TODO: Subtract fee from mutable balance reference
+    *balance = balance.saturating_sub(fee);
+    // I Uses saturating_sub to safely subtract the fee from the balance, ensuring it does not go below zero.
+    // This prevents underflow, which could occur if the fee is larger than the current balance
+}
 
 // pub fn move_txid(txid: String) -> String {
 //     // TODO: Return formatted string including the txid for display or logging
