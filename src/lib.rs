@@ -46,7 +46,8 @@ pub fn swap_endian_u32(num: u32) -> [u8; 4] {
 
 pub fn parse_satoshis(input: &str) -> Result<u64, String> {
     // TODO: Parse input string to u64, return error string if invalid
-    input.parse::<u64>()
+    input
+        .parse::<u64>()
         .map_err(|_| "Invalid satoshi amount".to_string())
     // I Attempts to parse the input string as a u64 and returns an error string if parsing fails.
     // If the input is valid, it returns the parsed u64 value.
@@ -64,10 +65,10 @@ pub fn classify_script(script: &[u8]) -> ScriptType {
     match script {
         // P2PKH (Pay-to-Public-Key-Hash) pattern: OP_DUP OP_HASH160 <20-byte-push>
         [0x76, 0xa9, 0x14, ..] => ScriptType::P2PKH,
-        
-        // P2WPKH (Pay-to-Witness-Public-Key-Hash) pattern: OP_0 <20-byte-push>  
+
+        // P2WPKH (Pay-to-Witness-Public-Key-Hash) pattern: OP_0 <20-byte-push>
         [0x00, 0x14, ..] => ScriptType::P2WPKH,
-        
+
         // Any other pattern is unknown
         _ => ScriptType::Unknown,
     }
@@ -79,11 +80,7 @@ pub struct Outpoint(pub String, pub u32);
 
 pub fn read_pushdata(script: &[u8]) -> &[u8] {
     // TODO: Return the pushdata portion of the script slice (assumes pushdata starts at index 2)
-    if script.len() > 2 {
-        &script[2..]
-    } else {
-        &[]
-    }
+    if script.len() > 2 { &script[2..] } else { &[] }
     // I Returns a slice of the script starting from index 2, which is where the pushdata is expected to begin. If the script is shorter than 2 bytes, it returns an empty slice.
 }
 
@@ -98,8 +95,8 @@ pub struct TestWallet {
 impl Wallet for TestWallet {
     fn balance(&self) -> u64 {
         // TODO: Return the wallet's confirmed balance
-    self.confirmed
-    // I Returns the confirmed balance of the wallet, which is stored in the `confirmed`, field of the `TestWallet` struct.
+        self.confirmed
+        // I Returns the confirmed balance of the wallet, which is stored in the `confirmed`, field of the `TestWallet` struct.
     }
 }
 
@@ -110,30 +107,40 @@ pub fn apply_fee(balance: &mut u64, fee: u64) {
     // This prevents underflow, which could occur if the fee is larger than the current balance
 }
 
-// pub fn move_txid(txid: String) -> String {
-//     // TODO: Return formatted string including the txid for display or logging
-// }
+pub fn move_txid(txid: String) -> String {
+    // TODO: Return formatted string including the txid for display or logging
+    format!("txid: {}", txid)
+    // I Formats the transaction ID into a string for display or logging purposes, making it clear that this is a transaction ID.
+}
 
-// // TODO: Add necessary derive traits
-// pub enum Opcode {
-//     OpChecksig,
-//     OpDup,
-//     OpInvalid,
-// }
+// TODO: Add necessary derive traits
+pub enum Opcode {
+    OpChecksig,
+    OpDup,
+    OpInvalid,
+}
 
-// impl Opcode {
-//     pub fn from_byte(byte: u8) -> Result<Self, String> {
-//         // TODO: Implement mapping from byte to Opcode variant
-//     }
-// }
+impl Opcode {
+    pub fn from_byte(byte: u8) -> Result<Self, String> {
+        // TODO: Implement mapping from byte to Opcode variant
+        match byte {
+            0xac => Ok(Opcode::OpChecksig),
+            0x76 => Ok(Opcode::OpDup),
+            _ => Err(format!("Invalid opcode: 0x{:02x}", byte)),
+        }
+        // I Uses a match statement to map specific byte values to their corresponding Opcode variants. If the byte does not match any known opcode, it returns an error string indicating the invalid opcode.
+    }
+}
 
-// // TODO: Add necessary derive traits
-// pub struct UTXO {
-//     pub txid: Vec<u8>,
-//     pub vout: u32,
-//     pub value: u64,
-// }
+// TODO: Add necessary derive traits
+pub struct UTXO {
+    pub txid: Vec<u8>,
+    pub vout: u32,
+    pub value: u64,
+}
 
-// pub fn consume_utxo(utxo: UTXO) -> UTXO {
-//     // TODO: Implement UTXO consumption logic (if any)
-// }
+pub fn consume_utxo(utxo: UTXO) -> UTXO {
+    // TODO: Implement UTXO consumption logic (if any)
+    utxo
+    // I Simply returns the UTXO as is, simulating the consumption of a UTXO. In a real application, this might involve marking the UTXO as spent or removing it from a list of available UTXOs.
+}
