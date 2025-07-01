@@ -114,6 +114,7 @@ pub fn move_txid(txid: String) -> String {
 }
 
 // TODO: Add necessary derive traits
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Opcode {
     OpChecksig,
     OpDup,
@@ -133,6 +134,7 @@ impl Opcode {
 }
 
 // TODO: Add necessary derive traits
+#[derive(Clone, Debug, PartialEq)]
 pub struct UTXO {
     pub txid: Vec<u8>,
     pub vout: u32,
